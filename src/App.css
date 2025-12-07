@@ -1,12 +1,31 @@
 .App {
   text-align: center;
-  padding: 20px;
+  padding: 0;
   font-family: Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-h1 {
-  color:aqua;
+.app-main {
+  flex: 1;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.app-main h2 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 2rem;
+}
+
+.catalog-info {
+  color: #666;
   margin-bottom: 30px;
+  font-size: 1.1rem;
 }
 
 .movie-list {
@@ -16,13 +35,14 @@ h1 {
   justify-items: center;
 }
 
-.movie-cart {
+.movie-card {
   border: 1px solid #ababab;
   border-radius: 8px;
   padding: 10px;
   width: 200px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  background-color: white;
 }
 
 .movie-card:hover {
@@ -46,6 +66,7 @@ button {
   cursor: pointer;
   margin-bottom: 20px;
   font-size: 16px;
+  transition: background-color 0.3s ease;
 }
 
 button:hover {
@@ -54,10 +75,14 @@ button:hover {
 
 .movie-detail {
   display: flex;
-  text-algin: left;
+  text-align: left;
   max-width: 800px;
   margin: 0 auto;
   gap: 30px;
+  background-color: white;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .movie-detail img {
@@ -67,4 +92,18 @@ button:hover {
 
 .detail-info h1 {
   margin-top: 0;
+  color: #333;
+}
+
+@media (max-width: 768px) {
+  .movie-detail {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .movie-detail img {
+    width: 100%;
+    max-width: 300px;
+  }
 }
