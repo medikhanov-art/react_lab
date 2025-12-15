@@ -1,19 +1,27 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 
 function Header() {
+  const getItemCount = () => 0;
+
   return (
     <header className="app-header">
       <div className="header-container">
         <div className="header-logo">
-          <h1>Мой Кинокаталог</h1>
+          <Link to="/" style={{ textDecoration: 'none', color: 'white' }}>
+            <h1>Мой Кинокаталог</h1>
+          </Link>
           <p className="header-subtitle">Лучшие фильмы всех времен</p>
         </div>
         <nav className="header-nav">
-          <a href="#home" className="nav-link">Главная</a>
-          <a href="#catalog" className="nav-link">Каталог</a>
-          <a href="#about" className="nav-link">О проекте</a>
-          <a href="#contact" className="nav-link">Контакты</a>
+          <Link to="/" className="nav-link">Главная</Link>
+          <Link to="/catalog" className="nav-link">Каталог</Link>
+          <Link to="/basket" className="nav-link">
+            Корзина {getItemCount() > 0 && `(${getItemCount()})`}
+          </Link>
+          <Link to="/orders" className="nav-link">Мои заказы</Link>
+          <Link to="/about" className="nav-link">О проекте</Link>
         </nav>
         <div className="header-stats">
           <div className="stat-item">
