@@ -1,41 +1,65 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import movieData from './movieData';
 import Header from './Header/Header.js';
 import Footer from './Footer/Footer.js';
 import { BasketProvider } from './contexts/BasketContext';
+import { AuthProvider } from './contexts/AuthContext'; // Импортируем AuthProvider
 import BasketList from './components/basket/BasketList.jsx';
 import BasketDetail from './components/basket/BasketDetail.jsx';
 import CreateOrder from './components/basket/CreateOrder.jsx';
 import UpdateOrder from './components/basket/UpdateOrder.jsx';
 import MovieCatalog from './components/MovieCatalog.jsx';
+import Register from './components/auth/Register.jsx'; // Импортируем компоненты аутентификации
+import Login from './components/auth/Login.jsx';
+import Profile from './components/auth/Profile.jsx';
+
+// Защищенный маршрут
+const ProtectedRoute = ({ children }) => {
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  return currentUser ? children : <Navigate to="/login" />;
+};
 
 function App() {
   return (
-    <BasketProvider>
-      <Router>
-        <div className="App">
-          <Header />
-          
-          <main className="app-main">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/catalog" element={<MovieCatalog />} />
-              <Route path="/basket" element={<BasketList />} />
-              <Route path="/create-order" element={<CreateOrder />} />
-              <Route path="/order/:orderId" element={<BasketDetail />} />
-              <Route path="/update-order/:orderId" element={<UpdateOrder />} />
-              <Route path="/orders" element={<OrdersList />} />
-            </Routes>
-          </main>
-          
-          <Footer />
-        </div>
-      </Router>
-    </BasketProvider>
+    <AuthProvider>
+      <BasketProvider>
+        <Router>
+          <div className="App">
+            <Header />
+            
+            <main className="app-main">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/catalog" element={<MovieCatalog />} />
+                <Route path="/basket" element={<BasketList />} />
+                <Route path="/create-order" element={<CreateOrder />} />
+                <Route path="/order/:orderId" element={<BasketDetail />} />
+                <Route path="/update-order/:orderId" element={<UpdateOrder />} />
+                <Route path="/orders" element={<OrdersList />} />
+                
+                {/* Маршруты аутентификации */}
+                <Route path="/register" element={<Register />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/profile" element={
+                  <ProtectedRoute>
+                    <Profile />
+                  </ProtectedRoute>
+                } />
+              </Routes>
+            </main>
+            
+            <Footer />
+          </div>
+        </Router>
+      </BasketProvider>
+    </AuthProvider>
   );
 }
+
+// Остальной код остается без изменений...
+// function HomePage(), function OrdersList() и т.д.
 
 function HomePage() {
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -87,12 +111,6 @@ function HomePage() {
     </div>
   );
 }
-
-// Удалите эту функцию - она уже есть в импорте
-// function MovieCatalog() {
-//   // Здесь будет компонент каталога фильмов
-//   return <div>Каталог фильмов</div>;
-// }
 
 function OrdersList() {
   // Здесь будет компонент списка заказов
