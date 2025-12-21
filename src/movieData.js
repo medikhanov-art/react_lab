@@ -89,6 +89,51 @@ const movieData = [
         rating: 6.8,
         poster: "https://www.themoviedb.org/t/p/w1280/lDnFdtSnkCGKJcHIzM74c9I1S0D.jpg", // ссылку на изображение постера
     },
+    {
+        id: 11,
+        title: "Интерстеллар",
+        director: "Кристофер Нолан",
+        year: 2014,
+        description: "Группа исследователей отправляется через червоточину в поисках нового дома для человечества.",
+        rating: 8.6,
+        poster: "https://www.themoviedb.org/t/p/w1280/rAiYTfKGqDCRIIqo664sY9XZIvQ.jpg",
+    },
+    {
+        id: 12,
+        title: "Начало",
+        director: "Кристофер Нолан",
+        year: 2010,
+        description: "Команда профессионалов внедряется в сны, чтобы выкрасть или внедрить идеи в подсознание.",
+        rating: 8.8,
+        poster: "https://www.themoviedb.org/t/p/w1280/piQXcdOGgv1O9HQ07pI0tnjkGJw.jpg",
+    },
+    {
+        id: 13,
+        title: "Матрица",
+        director: "Лана и Лилли Вачовски",
+        year: 1999,
+        description: "Программист узнаёт, что реальность — симуляция, и вступает в борьбу за освобождение человечества.",
+        rating: 8.7,
+        poster: "https://www.themoviedb.org/t/p/w1280/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg",
+    },
+    {
+        id: 14,
+        title: "Форрест Гамп",
+        director: "Роберт Земекис",
+        year: 1994,
+        description: "История простого человека, чья искренняя доброта влияет на судьбы многих вокруг него.",
+        rating: 8.8,
+        poster: "https://www.themoviedb.org/t/p/w1280/saHP97rTPS5eLmrLQEcANmKrsFl.jpg",
+    },
+    {
+        id: 15,
+        title: "Семь",
+        director: "Дэвид Финчер",
+        year: 1995,
+        description: "Два детектива расследуют серию жестоких убийств, основанных на семи смертных грехах.",
+        rating: 8.6,
+        poster: "https://www.themoviedb.org/t/p/w1280/69Sns8WoET6CfaYlIkHbla4l7nC.jpg",
+    }
 ]
 
 export default movieData;

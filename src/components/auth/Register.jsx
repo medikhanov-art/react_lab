@@ -100,7 +100,6 @@ const Register = () => {
     setIsSubmitting(true);
     
     try {
-      // Форматируем данные для отправки
       const userData = {
         firstName: formData.firstName.trim(),
         lastName: formData.lastName.trim(),
@@ -135,7 +134,6 @@ const Register = () => {
       [name]: type === 'checkbox' ? checked : value
     }));
     
-    // Очищаем ошибку при изменении поля
     if (errors[name]) {
       setErrors(prev => ({ ...prev, [name]: '' }));
     }

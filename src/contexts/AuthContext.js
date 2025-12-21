@@ -15,7 +15,6 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Проверяем, есть ли сохраненный пользователь в localStorage
     const savedUser = localStorage.getItem('currentUser');
     if (savedUser) {
       setCurrentUser(JSON.parse(savedUser));
@@ -25,10 +24,8 @@ export const AuthProvider = ({ children }) => {
 
   const register = async (userData) => {
     try {
-      // Имитация API запроса
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Создаем объект пользователя
       const newUser = {
         id: Date.now(),
         ...userData,
@@ -36,7 +33,6 @@ export const AuthProvider = ({ children }) => {
         isActive: true
       };
       
-      // Сохраняем пользователя в localStorage (в реальном приложении - отправка на сервер)
       const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
       const updatedUsers = [...existingUsers, newUser];
       localStorage.setItem('users', JSON.stringify(updatedUsers));

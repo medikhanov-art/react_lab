@@ -5,17 +5,20 @@ import movieData from './movieData';
 import Header from './Header/Header.js';
 import Footer from './Footer/Footer.js';
 import { BasketProvider } from './contexts/BasketContext';
-import { AuthProvider } from './contexts/AuthContext'; // Импортируем AuthProvider
+import { AuthProvider } from './contexts/AuthContext';
+import { ThemeProvider } from './contexts/ThemeContext'; // Добавьте эту строку
 import BasketList from './components/basket/BasketList.jsx';
 import BasketDetail from './components/basket/BasketDetail.jsx';
 import CreateOrder from './components/basket/CreateOrder.jsx';
 import UpdateOrder from './components/basket/UpdateOrder.jsx';
 import MovieCatalog from './components/MovieCatalog.jsx';
-import Register from './components/auth/Register.jsx'; // Импортируем компоненты аутентификации
+import Register from './components/auth/Register.jsx';
+import Orders from './components/basket/Orders.jsx';
 import Login from './components/auth/Login.jsx';
 import Profile from './components/auth/Profile.jsx';
+import About from './components/About';
+import './themes/darkTheme.css';
 
-// Защищенный маршрут
 const ProtectedRoute = ({ children }) => {
   const currentUser = JSON.parse(localStorage.getItem('currentUser'));
   return currentUser ? children : <Navigate to="/login" />;
@@ -23,43 +26,42 @@ const ProtectedRoute = ({ children }) => {
 
 function App() {
   return (
-    <AuthProvider>
-      <BasketProvider>
-        <Router>
-          <div className="App">
-            <Header />
-            
-            <main className="app-main">
-              <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/catalog" element={<MovieCatalog />} />
-                <Route path="/basket" element={<BasketList />} />
-                <Route path="/create-order" element={<CreateOrder />} />
-                <Route path="/order/:orderId" element={<BasketDetail />} />
-                <Route path="/update-order/:orderId" element={<UpdateOrder />} />
-                <Route path="/orders" element={<OrdersList />} />
-                
-                {/* Маршруты аутентификации */}
-                <Route path="/register" element={<Register />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/profile" element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
-                } />
-              </Routes>
-            </main>
-            
-            <Footer />
-          </div>
-        </Router>
-      </BasketProvider>
-    </AuthProvider>
+    <ThemeProvider> {/* Оберните все в ThemeProvider */}
+      <AuthProvider>
+        <BasketProvider>
+          <Router>
+            <div className="App">
+              <Header />
+              
+              <main className="app-main">
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/catalog" element={<MovieCatalog />} />
+                  <Route path="/basket" element={<BasketList />} />
+                  <Route path="/create-order" element={<CreateOrder />} />
+                  <Route path="/order/:orderId" element={<BasketDetail />} />
+                  <Route path="/update-order/:orderId" element={<UpdateOrder />} />
+                  <Route path="/orders" element={<Orders />} />
+                  <Route path="/about" element={<About />} />
+                  <Route path="/register" element={<Register />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route path="/profile" element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  } />
+                </Routes>
+              </main>
+              
+              <Footer />
+            </div>
+          </Router>
+        </BasketProvider>
+      </AuthProvider>
+    </ThemeProvider>
   );
 }
 
-// Остальной код остается без изменений...
-// function HomePage(), function OrdersList() и т.д.
 
 function HomePage() {
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -110,11 +112,6 @@ function HomePage() {
       )}
     </div>
   );
-}
-
-function OrdersList() {
-  // Здесь будет компонент списка заказов
-  return <div>Список заказов</div>;
 }
 
 export default App;

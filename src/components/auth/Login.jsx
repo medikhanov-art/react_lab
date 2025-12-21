@@ -92,7 +92,6 @@ const Login = () => {
     setIsSubmitting(true);
     
     try {
-      // Создаем демо-пользователя если его нет
       const users = JSON.parse(localStorage.getItem('users')) || [];
       const demoUser = users.find(u => u.email === 'demo@example.com');
       

@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useBasket } from '../../contexts/BasketContext';
+import { useAuth } from '../../contexts/AuthContext';
 import './CreateOrder.css';
 
 const CreateOrder = () => {
   const navigate = useNavigate();
   const { basketItems, getTotalPrice, createOrder, clearBasket } = useBasket();
+  const { currentUser } = useAuth();
   const [formData, setFormData] = useState({
     customerName: '',
     customerEmail: '',
@@ -73,14 +75,48 @@ const CreateOrder = () => {
       // Имитация API запроса
       await new Promise(resolve => setTimeout(resolve, 1000));
       
+      // Сформируем полный объект заказа (включая корзину и метаданные пользователя)
+      const generatedId = Date.now();
       const orderData = {
-        ...formData,
-        cardLastFour: formData.cardNumber.slice(-4)
+        id: generatedId,
+        orderNumber: `ORD-${generatedId}`,
+        date: new Date().toISOString(),
+        userId: currentUser?.id || null,
+        userEmail: currentUser?.email || formData.customerEmail,
+        items: basketItems,
+        totalAmount: getTotalPrice(),
+        paymentMethod: formData.paymentMethod,
+        cardLastFour: formData.cardNumber.slice(-4),
+        customerName: formData.customerName,
+        customerEmail: formData.customerEmail,
+        customerPhone: formData.customerPhone,
+        deliveryAddress: formData.deliveryAddress,
+        notes: formData.notes,
+        status: 'pending'
       };
       
-      const newOrder = createOrder(orderData);
+      // Сохраняем через контекст (если реализовано) и получаем результат
+      const createdOrder = createOrder ? createOrder(orderData) : orderData;
+      
+      // Всегда используем объект заказа, полученный от контекста или локально
+      const newOrder = createdOrder || orderData;
+      
+      // --- Сохранение истории заказов в localStorage ---
+      // Общий список заказов
+      const allOrders = JSON.parse(localStorage.getItem('orders')) || [];
+      allOrders.push(newOrder);
+      localStorage.setItem('orders', JSON.stringify(allOrders));
+      
+      // Персональная история по email пользователя
+      const userKey = `orders_${(currentUser?.email || formData.customerEmail || 'guest')}`;
+      const userOrders = JSON.parse(localStorage.getItem(userKey)) || [];
+      userOrders.push(newOrder);
+      localStorage.setItem(userKey, JSON.stringify(userOrders));
+      // --- конец сохранения ---
       
       // Редирект на страницу заказа
+      // Очистим корзину и перейдем к деталям заказа
+      if (clearBasket) clearBasket();
       navigate(`/order/${newOrder.id}`);
       
     } catch (error) {
